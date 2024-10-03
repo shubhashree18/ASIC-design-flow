@@ -1,6 +1,6 @@
-# RTL to GDSflow 
+# RTL to GDSII flow 
 
-# Introduction to RTL to GDS
+# Introduction to RTL to GDSII
 
 The RTL to GDSII flow is a critical process in the design and fabrication of digital integrated circuits (ICs). It represents the transformation of a high-level Register Transfer Level (RTL) description of a circuit, typically written in hardware description languages like Verilog or VHDL, into the final GDSII format. This GDSII format is used to create photomasks for semiconductor fabrication.
 
@@ -140,13 +140,13 @@ Floor planning is the initial stage of chip design, determining the chip's width
 and overall area. It involves defining the core and die areas, placing macros, and
 establishing blockages and halos.
 
-#### Objectives of Floor Plan
+### Objectives of Floor Plan
 * Minimize the area.
 * Minimize the timing.
 * Reduce the wire length.
 * Making routing easy.
 
-#### Key Aspects of Floor Planning
+### Key Aspects of Floor Planning
 #### 1. Defining Core Area
   * Determine the shape and size of the block/partition.
   *  Create voltage areas for low-power or multi-voltage designs.
@@ -178,9 +178,9 @@ efficiency
 Power planning is a critical stage in the physical design flow of integrated circuits (ICs),
 creating an efficient and reliable power distribution throughout the chip
 
-#### Objectives
-➢ Reliable power delivery
-➢ Thermal management
+### Objectives
+* Reliable power delivery
+* Thermal management
 
 #### Power pad placement
 Power pads are strategically placed on the chip to facilitate external power
