@@ -1,24 +1,36 @@
 # RTL to GDSII flow 
-
+   
 # Introduction to RTL to GDSII
 
 The RTL to GDSII flow is a critical process in the design and fabrication of digital integrated circuits (ICs). It represents the transformation of a high-level Register Transfer Level (RTL) description of a circuit, typically written in hardware description languages like Verilog or VHDL, into the final GDSII format. This GDSII format is used to create photomasks for semiconductor fabrication.
 
 ![Screenshot (58)](https://github.com/user-attachments/assets/0898c72b-074f-4586-99cf-402df254dbf5)
 
-
+</details><details>
+  <summary>RTL</summary>
+   
 ## 1. RTL(Register Transfer Level) :
 * Code involves describing the digital logic of a circuit in terms of data flows and the operations performed on data using an HDL(hardware description language) ex: Verilog, Systemverilog, VHDL.
 * Example: A simple RTL Verilog Code of a Inverter shown Below:
 
    ![Screenshot (59)](https://github.com/user-attachments/assets/ed54d7ce-20dc-4ae7-91f5-a0de1aa03513)
 
+</details><details>
+  <summary>Functional Verification</summary>
+   
 ## 2. Functional Verification :
 * The primary goal of functional verification is to confirm that the design, described using an HDL like Verilog or VHDL, correctly implements the specified functionality.
 * This involves checking that the design meets all the requirements and specifications without any logical errors using tools such as Modelsim ,QuestaSim, Xcelium,etc.
 * For Functional Verification we require the Design files and the Testbench of the Design written in HDL like Verilog or VHDL Through which we can generate a Waveform to
 verify the functionality of the Design is correctly implemented as written in the Code.
 
+#### Output:
+
+![Screenshot (64)](https://github.com/user-attachments/assets/270acce3-4864-4092-aa52-fe97f675fb12)
+
+</details><details>
+  <summary>Synthesis</summary>
+   
 ## 3. Synthesis :
 * Synthesis is a physical design Process where a high-level Hardware Description Language (HDL) description (such as Verilog or VHDL) is transformed into a lower-level representation that can be implemented on hardware.
 * This process is essential for converting abstract designs into concrete implementations on FPGAs (Field-Programmable Gate Arrays) or ASICs (Application-Specific Integrated Circuits).
@@ -134,7 +146,14 @@ Set_input_delay and set_output_delay commands are used to specify the delay
 at input port and delay from the output port to the next off-chip flop with
 respect to launch clock.
 
-## 3. Floor planning 
+#### Output netlist:
+
+![Screenshot (65)](https://github.com/user-attachments/assets/28755a60-465d-417d-9255-ab7ea88b263f)
+
+ </details><details>
+  <summary>Floor planning</summary>
+    
+## 4. Floor planning 
 
 Floor planning is the initial stage of chip design, determining the chip's width, height,
 and overall area. It involves defining the core and die areas, placing macros, and
@@ -173,6 +192,14 @@ placement and routing.
   * Surround critical cells with decoupling capacitors to improve reliability and
 efficiency
 
+#### Output:
+
+![Screenshot (63)](https://github.com/user-attachments/assets/0208cb2a-7a61-491c-94d8-61996730e19a)
+
+
+</details><details>
+  <summary>Power planning</summary>
+   
 ## 5. Power planning
 
 Power planning is a critical stage in the physical design flow of integrated circuits (ICs),
@@ -216,3 +243,9 @@ VDD and VSS, facilitating stable power delivery and signal integrity.
 #### Trunks
 Links the pads directly to the power rings, enabling efficient power transfer from
 external sources to internal power distribution networks within the chip.
+
+#### Output:
+
+![Screenshot (61)](https://github.com/user-attachments/assets/5a116da5-6cac-472e-81bb-4f28b46256e9)
+
+![Screenshot (62)](https://github.com/user-attachments/assets/55b6198e-96bf-46aa-9513-ad8ed7ea4b9f)
