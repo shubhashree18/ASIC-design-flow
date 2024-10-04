@@ -513,3 +513,16 @@ Tool: Calibre.
 
 #### Output:
 
+![Screenshot (79)](https://github.com/user-attachments/assets/beec253e-9e3d-4d51-9831-48084607ae20)
+
+![Screenshot (80)](https://github.com/user-attachments/assets/7a5061ea-1535-42d0-819c-dd1b05c8864e)
+
+![Screenshot (82)](https://github.com/user-attachments/assets/2d6e959e-6692-4d3c-9f57-a121c6d0f5dd)
+
+![Screenshot (83)](https://github.com/user-attachments/assets/5aadd0f0-e309-4cd6-9ede-9b377e74446e)
+
+![Screenshot (85)](https://github.com/user-attachments/assets/b6eac1c2-eee3-4f0b-80a4-0727b3e335b6)
+
+![Screenshot (86)](https://github.com/user-attachments/assets/ea6641bf-0da7-402c-a5ff-d7df8102694f)
+
+![Screenshot (87)](https://github.com/user-attachments/assets/d2decee0-e922-4513-aa7e-93acc4c61189)
