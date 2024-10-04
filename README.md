@@ -249,3 +249,267 @@ external sources to internal power distribution networks within the chip.
 ![Screenshot (61)](https://github.com/user-attachments/assets/5a116da5-6cac-472e-81bb-4f28b46256e9)
 
 ![Screenshot (62)](https://github.com/user-attachments/assets/55b6198e-96bf-46aa-9513-ad8ed7ea4b9f)
+
+</details><details>
+  <summary>Placement</summary>
+
+## 6. Placement
+Placement is the process of placing all the standard cells from the Netlist into the core
+area.
+
+### Goals of placement
+* Timing, area and power optimization
+* Minimize congestion and congestion hotspots
+* Minimum cell density, pin density
+* No timing DRV’s (Design Rule Violations)
+
+### Placement Procedure Overview
+#### 1. Pre-Placement Checks
+   * Netlist should be clean.
+   * Floorplan DEF should be good
+      * Proper Pin placement
+      * Macros and pre-placed cells should be in fix.
+      * Power routes should be free of DRCs
+#### 2. Place various Physical Only Cells like end-cap cells, well-tap cells, IO buffers, antenna diodes, and spare cells.
+#### 3. Global Placement
+All the cells are placed arbitrarily in the ASIC core, but they are not legally placed
+(fixed location not assigned) within standard cell row.
+#### 4. Legalization
+Ensures that final placement is legal and there is no Placement constraint violation.
+#### 5. High Fanout Net Synthesis
+Some of the nets will have very high number of fanouts like Reset, Scan Enable
+etc... But, there is a restriction for maximum fanout in timing constraints.
+#### 6. Scan Chain Reordering
+Creating a fresh scan chain routes by connecting the flops which are near to each
+other. There is no requirement to check whether the flops are functionally talking
+or not talking for scan chains.
+#### 7. Timing/Power Optimization
+
+#### Congestion 
+* When the number of routing tracks available for routing in a given location is less than
+the number necessary, the area is considered congested.
+* Congestion = Available routing tracks – Required routing tracks
+
+#### Slack
+Slack is the difference between a path's required time and arrival time. For timing path
+slack determines if the design is working at the specified speed or frequency.
+Zero slack means that the design is critically working at the desired frequency.
+Slack has to be positive always and negative slack indicates a violation in timing.
+
+#### Skew
+Skew is the difference of arrival times of clock edge at the clock pins of adjacent flops.
+Skew affects the both setup and hold times.
+
+#### Slew
+Slew is transition time of the signal to change its state from logic 1 to logic 0. It is
+associated with the rise time and fall time of signal.
+
+#### output
+
+![place](https://github.com/user-attachments/assets/bd5e07a4-53f2-4663-abe8-af177cd3a2e7)
+
+![Screenshot (66)](https://github.com/user-attachments/assets/7bfcf956-6503-45c7-b06a-f15090bf8c47)
+
+#### DRV Violations are observed:
+
+![Screenshot (67)](https://github.com/user-attachments/assets/7359653c-e922-46be-8e24-97115929b280)
+
+#### Design Optimization to remove DRV Violations
+* ECO > Optimize Design
+* In the Optimization Window, select the following
+* Choose Design Stage - Pre CTS
+* Optimization type - Setup
+* Select all three Design Rule Violation.
+
+![Screenshot (68)](https://github.com/user-attachments/assets/0685a727-7030-4f3f-a461-42b27a7c45c7)
+
+#### Analyzing Congestion
+* Route > NanoRoute > Analyze Congestion
+
+ #### When Congestion Effort is Low
+
+   ![Screenshot (71)](https://github.com/user-attachments/assets/7373d668-f430-4cf1-ae3c-a96b07aa0bb3)
+   
+   Routing Overflow: 0.03% H and 0.00% V
+
+  #### When Congestion Effort is Medium
+
+   ![Screenshot (72)](https://github.com/user-attachments/assets/1ae84819-55f5-4575-b7bb-db235b169590)
+   
+   Routing Overflow: 0.02% H and 0.00% V
+
+  #### When Congestion Effort is high
+  Routing Overflow: 0.00% H and 0.00% V
+   No Overflow Observed.
+
+</details><details>
+  <summary>Clock Tree Synthesis</summary>
+   
+## 7. Clock Tree Synthesis
+CTS is the process of connecting the clock from clock port to the clock pin of
+sequential cells in the design by maintaining minimum insertion delay and balancing
+the skew between the cells using clock inverters and clock buffers.
+
+### CTS Goals
+* Minimum Skew
+*  Minimum Insertion delay
+*  Complete the clock tree with no DRV (Tran, cap and fanout) violations.
+*  No timing violations (Setup and Hold)
+
+### CTS Procedure Overview
+
+#### Pre CTS Checks
+* Placement – Completed
+* Power ground nets – Pre Routed
+* Estimated Congestion – acceptable
+* Estimated Timing – acceptable (~ 0ns slack)
+* imated Max Tran/Cap – No violations
+* High Fanout Nets
+* Logical / physical library should have special clock cells (clkBuf or clkInv)
+
+#### Clustering:
+Depending on the geometry locations, the skew groups are being created as per
+the description in SPEC file.
+#### DRV Fixing:
+At this stage, DRVs (max_tran, max_cap, max_length, max_fanout) are fixed.
+#### Insertion Delay Reduction:
+At this stage, insertion delay is minimized as much as possible, which is one of our
+main goals for the Clock Tree Synthesis.
+#### Balancing:
+The main balancing happens at this stage with the help of different clock buffers
+and inverters.
+#### Routing of clock tree:
+During this step, tool will route all the clock tree nets using a Nanoroute engine.
+#### Post Conditioning:
+At this stage, again DRVs will be checked and if required then it will be fixed.
+
+### Clock
+A signal with constant rise and fall with ideally equal width (50% rise and 50% fall of the
+signal width) helps to control data propagation through the clock elements like Flip
+Flop, Latches etc. The clock source mostly present in the top-level design and from
+there propagation happens. PLL, Oscillator like constant sources are being used
+normally in designs to get the clock.
+
+### Types of Clock Tree Structures
+Different structures are available to build clock tree to maintain minimum insertion
+delay and balance the skew.
+A few clock tree structures are:
+* H – Tree structure
+* X – Tree structure
+* Geometric Matching Algorithm (GMA)
+* Pi Tree structure
+* Fishbone
+
+#### Output:
+
+run in script mode
+      
+      source cts.tcl
+
+   ![Screenshot (73)](https://github.com/user-attachments/assets/3762f38f-4521-455f-a5f5-1f7bfea7e5b9)
+
+No Setup Violations, because both WNS and TNS are Positive.
+
+   ![Screenshot (74)](https://github.com/user-attachments/assets/d97db92b-d253-4d46-a0c3-e6e337c809a0)
+
+If there are DRV Violations, follow ECO method as we did in placement
+
+</details><details>
+  <summary>ROUTING</summary>
+   
+## 8. ROUTING
+Routing is the process of creating physical connections between or among the signal
+pins by following the DRC rules and also after routing timing (setup and hold) have to
+meet.
+
+### Types of Routing:
+* Pre routing – also known as power routing which comes under power planning.
+* Clock routing – it can be done while building the clock tree in CTS stage.
+* Signal routing – it is the stage after CTS.
+
+### Goals of Routing:
+* Minimize the total interconnect or wire length and vias.
+* Complete the routing within the area of the design.
+* No DRC violations.
+* Meeting the timing.
+* No LVS errors
+
+### Tasks performed by signal routing:
+* Global routing.
+* Track assignment.
+* Detailed routing.
+* Search and repair.
+
+#### Output
+
+![Screenshot (75)](https://github.com/user-attachments/assets/2ae8e009-077f-49bb-b43b-fe060000fcf5)
+
+#### Post Routing timing optimization
+Timing >> Report Timing
+
+setup violations:
+
+![Screenshot (76)](https://github.com/user-attachments/assets/cdcfd728-60d5-4e6d-bedc-313bfe1f7e60)
+
+hold violations:
+
+![Screenshot (77)](https://github.com/user-attachments/assets/a454b21c-ee76-4a09-bde7-f258c1c651a9)
+
+#### Filler cells in empty core area
+
+In innovus window click Place >> Physical cell >> Add Filler
+
+![Screenshot (78)](https://github.com/user-attachments/assets/90778ca8-7804-4885-b3f7-c6d4b3b519b9)
+
+Add all the cells to the Selectable Cell List
+
+</details><details>
+  <summary>SIGNOFF</summary>
+
+## 9. SIGNOFF
+Signoff is the process of verifying the design at the final stage before going to the tape
+out. Clean signoff reports are the green signal to the fabrication because clean reports
+ensure the design satisfies all the required specifications and constraints at the final
+stage.
+
+### The major checks of signoff include:
+### STA (Static Timing Analysis):
+STA's main agenda is to make sure that signals propagate through the design
+within specified time constraints. During STA the tool divides the entire design
+circuit into 4 sets of timing paths, which are in2reg, reg2reg, reg2out, and in2out.
+Then analyses the delay of signal paths in the circuit. By considering these delays,
+the analysis determines the worst-case and best-case timings for various paths.
+This information is important to make sure that the design functions properly
+and meets all performance requirements (like clock frequency and setup/ hold
+timings).
+Tool: Tempus.
+
+### IR Drop Analysis:
+IR drop is also known as voltage drop. Due to the internal resistance of metal of
+the power delivery network there could be a drop in voltage. This is becoming
+more critical as design complexity increases. An IR drop can lead to variations in
+supply voltage levels in the design, which causes performance degradation,
+functionality errors and even complete failures. Excessive IR drop can result in
+slower circuit operation, reduced noise margins and timing violations.
+Tool: Voltus.
+
+### EM Analysis:
+EM means electromigration. It refers to the phenomenon where the movement
+of metal atoms within the conductor is induced by the flow of high current
+densities. This causes the metal atoms to break or short with nearby metal. This
+will create issues like increased resistance, altered signal propagation, and
+eventually, circuit malfunction or complete failure. So, designers take care of this
+issue and they follow certain strategies to fix this effect.
+Tool: Voltus.
+
+### Physical Verification:
+Physical verification ensures the correctness of the layout before manufacturing.
+During this stage, tool analyses the design layout data against the set of
+predefined design rules, which can cover various aspects such as minimum
+feature sizes, metal spacing, metal density, LVS, and more. By performing this
+stage, designers can identify the critical issues early in the design, reducing the
+risk of costly manufacturing errors and post fabrication failures.
+Tool: Calibre.
+
+#### Output:
+
