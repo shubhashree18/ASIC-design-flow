@@ -1,6 +1,6 @@
 # RTL to GDSII flow 
    
-# Introduction to RTL to GDSII
+# Introduction 
 
 The RTL to GDSII flow is a critical process in the design and fabrication of digital integrated circuits (ICs). It represents the transformation of a high-level Register Transfer Level (RTL) description of a circuit, typically written in hardware description languages like Verilog or VHDL, into the final GDSII format. This GDSII format is used to create photomasks for semiconductor fabrication.
 
